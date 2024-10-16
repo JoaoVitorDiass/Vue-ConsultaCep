@@ -7,7 +7,7 @@ const app = Vue.createApp({
             cidadeSelecionada: '',
             referencia: '',
             ceps: [],
-            mensagemErro: '' // Nova variável para a mensagem de erro
+            mensagemErro: '' 
         };
     },
     mounted() {
@@ -30,18 +30,16 @@ const app = Vue.createApp({
                 const resposta = await fetch(`https://viacep.com.br/ws/${this.estadoSelecionado}/${this.cidadeSelecionada}/${this.referencia}/json/`);
                 const resultado = await resposta.json();
                 
-                // Se não encontrar resultados, mostrar a mensagem de erro
                 if (resultado.length === 0) {
                     this.mensagemErro = "Nenhum CEP encontrado para os filtros fornecidos.";
                     this.ceps = [];
                 } else {
                     this.ceps = resultado;
-                    this.mensagemErro = ''; // Limpa a mensagem de erro se encontrar resultados
+                    this.mensagemErro = ''; 
                 }
             }
         }
     }
 });
 
-// Montando o aplicativo Vue no elemento HTML com o id 'app'
 app.mount('#app');
