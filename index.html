@@ -4,73 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Busca de CEPs</title>
-    <!-- Importando Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            padding: 20px;
-        }
-        table {
-            margin-top: 20px;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
-<div id="app" class="container">
-    <h1 class="mb-4">Busca de CEPs</h1>
-    <div class="form-group">
-        <label for="estado">Estado:</label>
-        <select v-model="estadoSelecionado" @change="buscarCidades" class="form-control">
-            <option disabled value="">Selecione um estado</option>
-            <option v-for="estado in estados" :key="estado.sigla" :value="estado.sigla">
-                {{ estado.sigla }} - {{ estado.nome }}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="cidade">Cidade:</label>
-        <select v-model="cidadeSelecionada" class="form-control" :disabled="!cidades.length">
-            <option disabled value="">Selecione uma cidade</option>
-            <option v-for="cidade in cidades" :key="cidade.id" :value="cidade.nome">
-                {{ cidade.nome }}
-            </option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label for="referencia">Referência:</label>
-        <input type="text" v-model="referencia" class="form-control" placeholder="Digite a referência" />
-    </div>
-
-    <button @click="buscarCEPs" class="btn btn-primary">Buscar CEPs</button>
-
-    <table class="table table-striped" v-if="ceps.length > 0">
-        <thead>
-            <tr>
-                <th>CEP</th>
-                <th>Logradouro</th>
-                <th>Complemento</th>
-                <th>Bairro</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="cep in ceps" :key="cep.cep">
-                <td>{{ cep.cep }}</td>
-                <td>{{ cep.logradouro }}</td>
-                <td>{{ cep.complemento }}</td>
-                <td>{{ cep.bairro }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- Importando o arquivo JavaScript -->
+    <div id="app" class="container">
+        <h1 class="text-center"><i class="bi bi-search"></i> Consulta de CEPs</h1>
+    
+        <div class="form-group mb-3">
+            <label for="estado">Estado:</label>
+            <select v-model="estadoSelecionado" @change="buscarCidades" class="form-control form-select">
+                <option disabled value="">Selecione um estado</option>
+                <option v-for="estado in estados" :key="estado.sigla" :value="estado.sigla">
+                    {{ estado.sigla }} - {{ estado.nome }}
+                </option>
+            </select>
+        </div>
+    
+        <div class="form-group mb-3">
+            <label for="cidade">Cidade:</label>
+            <select v-model="cidadeSelecionada" class="form-control form-select" :disabled="!cidades.length">
+                <option disabled value="">Selecione uma cidade</option>
+                <option v-for="cidade in cidades" :key="cidade.id" :value="cidade.nome">
+                    {{ cidade.nome }}
+                </option>
+            </select>
+        </div>
+    
+        <div class="form-group mb-3">
+            <label for="referencia">Referência:</label>
+            <input type="text" v-model="referencia" class="form-control" placeholder="Digite a referência" />
+        </div>
+    
+        <button @click="buscarCEPs" class="btn btn-primary"><i class="bi bi-search"></i> Buscar CEPs</button>
+    
+        <!-- Mostrar mensagem de erro se não houver resultados -->
+        <div v-if="mensagemErro" class="alert alert-danger mt-4" role="alert">
+            {{ mensagemErro }}
+        </div>
+    
+        <!-- Mostrar tabela de resultados se houver CEPs -->
+        <table class="table table-hover table-striped mt-4" v-if="ceps.length > 0">
+            <thead>
+                <tr>
+                    <th>CEP</th>
+                    <th>Logradouro</th>
+                    <th>Complemento</th>
+                    <th>Bairro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="cep in ceps" :key="cep.cep">
+                    <td>{{ cep.cep }}</td>
+                    <td>{{ cep.logradouro }}</td>
+                    <td>{{ cep.complemento }}</td>
+                    <td>{{ cep.bairro }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>    
 <script src="app.js"></script>
 
 </body>
